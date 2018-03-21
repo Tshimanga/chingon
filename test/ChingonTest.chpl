@@ -105,6 +105,11 @@ class ChingonTest : UnitTest {
     g.updateEdge(3,6, 1.10);
     assertRealEquals("Graph can update edge on value", expected=-3.14, actual=g.get(3,6));
     g.removeEdge(3,5);
+
+    assertIntEquals("Vertex 3 has two neighbors", expected=2, actual=g.neighbors(3).size());
+    g.isolate(3);
+    assertIntEquals("Vertex 3 can be isolated", expected=0, actual=g.neighbors(3).size());
+
     writeln("...done");
   }
 
@@ -193,6 +198,11 @@ class ChingonTest : UnitTest {
     B.addWall("D3", "E3");
     B.addWall("F7", "G7");
     assertBoolEquals("Wall between A1 and A2", expected=false, actual=B.SD.member((1,2)));
+    assertIntEquals("C6 has 4 neighbors", expected=4, actual=B.neighbors("C6").size());
+    B.isolate("C6");
+    assertIntEquals("C6 now has no neighbors", expected=0, actual=B.neighbors("C6").size());
+
+    assertStringArrayEquals("Can only go S E N from B2", expected=["S","E","N"], actual=B.availableActions("B2"));
     writeln(B);
     writeln("...done");
   }
